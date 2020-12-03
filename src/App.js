@@ -1,3 +1,4 @@
+import {Button} from 'antd';
 import logo from './logo.svg';
 import './App.css';
 
@@ -9,6 +10,7 @@ function App() {
         <p>
           APSI <code>frontend</code> project
         </p>
+          <Button type='primary'>Test button</Button>
       </header>
     </div>
   );
