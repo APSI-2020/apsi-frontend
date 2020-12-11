@@ -39,11 +39,11 @@ const Navigation = () => {
 
 export const LayoutWrapper = ({ children }) => {
   return (
-    <Layout className=''>
+    <Layout className='layout'>
       <Header className='layout--header layout--header__stick'>
         <Navigation />
       </Header>
-      <Content className='layout-wrapper--content' style={{ padding: '0 20px' }}>
+      <Content className='layout--content'>
         <Col span={24}>
           <Row
             xs={{ span: 24 }}
