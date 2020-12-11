@@ -4,7 +4,8 @@ import { Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
-import { AuthorizedRoute, UserAuthorizationRouter } from './auth';
+import { UserAuthorizationRouter } from './auth';
+import { LayoutRoute } from './components';
 import logo from './logo.svg';
 import { dataActionNames } from './reducers/dataReducer/actions';
 
@@ -38,7 +39,7 @@ export const AppRouter = () => {
   return (
     <Switch>
       <Route path={`${url}auth/`} component={UserAuthorizationRouter} />
-      <AuthorizedRoute path={'/'} exact component={Main} />
+      <LayoutRoute path={'/'} exact component={Main} />
     </Switch>
   );
 };

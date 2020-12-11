@@ -3,7 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useRouteMatch, useLocation, Route, Redirect } from 'react-router-dom';
 
-import { LayoutWrapper } from '../../components';
+import { LayoutWrapper } from '../index';
 
 export const AuthorizedRoute = ({ component: Component, ...props }) => {
   const isLoggedIn = useSelector((state) => state.authDb.isUserLoggedIn);

@@ -1,12 +1,16 @@
 import React from 'react';
 
 import { Col, Layout, Row } from 'antd';
+import { Link } from 'react-router-dom';
+
 const { Header, Content, Footer } = Layout;
 export const LayoutWrapper = ({ children }) => {
   return (
     <Layout>
       <Header>
-        <h1 style={{ color: 'white' }}>Header</h1>
+        <Link style={{ color: 'white' }} to={'/auth/login'}>
+          Zaloguj
+        </Link>
       </Header>
       <Content className='layout-wrapper--content' style={{ padding: '0 20px' }}>
         <Col span={24}>
