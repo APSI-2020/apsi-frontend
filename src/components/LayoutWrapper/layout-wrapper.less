@@ -1,0 +1,33 @@
+.layout {
+  &--header {
+    background-color: #c1c1c1 !important;
+    color: black;
+
+    &__stick {
+      position: sticky;
+      top: 0;
+      z-index: 1040;
+    }
+  }
+}
+
+.navigation {
+  display: flex;
+
+  &--user-wrapper {
+    margin: 0 0 0 auto;
+  }
+
+  &--view-wrapper {
+    margin: 0;
+    list-style: none;
+    display: flex;
+  }
+
+  .navlink {
+    border-bottom: 2px solid transparent;
+    &__selected {
+      border-bottom-color: black;
+    }
+  }
+}
