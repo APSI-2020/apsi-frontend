@@ -6,6 +6,12 @@
     "plugin:react/recommended"
   ],
   "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     "semi": [2, "always"],
     "no-multiple-empty-lines": [
       2,
