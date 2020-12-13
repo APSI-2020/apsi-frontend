@@ -1,28 +1,43 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import { Button, Form, Input } from 'antd';
-import { useDispatch } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { Button, Form, Input, message } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { userLoggedIn } from '../../reducers';
+import { loginUser } from '../../reducers';
 
 const formNames = {
-  login: 'login',
+  email: 'email',
   password: 'password',
 };
 
 export const Login = () => {
   const [form] = Form.useForm();
   const [, forceUpdate] = useState();
+  const loading = useSelector((state) => state.auth.loading);
   const dispatch = useDispatch();
   const history = useHistory();
 
   const onFormFinish = useCallback(
     (values) => {
-      dispatch(userLoggedIn('token'));
-      history.push('/');
+      dispatch(loginUser(values))
+        .then(unwrapResult)
+        .then(() => {
+          history.push('/');
+        })
+        .catch((error) => {
+          form.setFields(
+            Object.entries(error).map(([key, value]) => {
+              return { name: key, errors: value };
+            }),
+          );
+          if (error.hasOwnProperty('detail')) {
+            message.error(error.detail);
+          }
+        });
     },
-    [dispatch, history],
+    [dispatch, history, form],
   );
 
   // To disable submit button at the beginning.
@@ -33,9 +48,14 @@ export const Login = () => {
   return (
     <Form form={form} layout='vertical' onFinish={onFormFinish}>
       <Form.Item
-        label='Login'
-        name={formNames.login}
+        label='Email'
+        name={formNames.email}
         rules={[
+          {
+            type: 'email',
+            required: true,
+            message: 'Nie jest to poprawny adres email',
+          },
           {
             whitespace: true,
             required: true,
@@ -73,9 +93,11 @@ export const Login = () => {
           <Button
             type='primary'
             htmlType='submit'
+            loading={loading}
             disabled={
               !form.isFieldsTouched(true) ||
-              form.getFieldsError().filter(({ errors }) => errors.length).length
+              form.getFieldsError().filter(({ errors }) => errors.length).length ||
+              loading
             }
           >
             Zaloguj

@@ -6,7 +6,7 @@ import { useRouteMatch, useLocation, Route, Redirect } from 'react-router-dom';
 import { LayoutWrapper } from '../index';
 
 export const AuthorizedRoute = ({ component: Component, ...props }) => {
-  const isLoggedIn = useSelector((state) => state.authDb.isUserLoggedIn);
+  const isLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
   const { url } = useRouteMatch();
   const location = useLocation();
   const currentLocation = location.pathname + location.search;
