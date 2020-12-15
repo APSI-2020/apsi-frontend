@@ -9,14 +9,14 @@ import { Login } from '../Login';
 
 export const UserAuthorizationRouter = () => {
   const { url } = useRouteMatch();
-  const token = useSelector((state) => state.authDb.token);
+  const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
     if (typeof token !== 'undefined') {
       //auto sign in
-      dispatch(userLoggedIn('token'));
+      dispatch(userLoggedIn(token));
       history.push('/');
     }
 

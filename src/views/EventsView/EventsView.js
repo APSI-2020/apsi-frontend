@@ -56,7 +56,7 @@ const EventElementContent = ({ event }) => {
 };
 
 export const EventsView = () => {
-  const isUserLoggedIn = useSelector((state) => state.authDb.isUserLoggedIn);
+  const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
   const events = useSelector((state) => state.events.events);
   const dispatch = useDispatch();
 

@@ -7,7 +7,7 @@ import { Link, NavLink } from 'react-router-dom';
 const { Header, Content, Footer } = Layout;
 
 const UserAccountNavigation = () => {
-  const isUserLoggedIn = useSelector((state) => state.authDb.isUserLoggedIn);
+  const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
   return (
     <div className='navigation--user-wrapper'>
       {<Link to={'/events'}>Wydarzenia</Link>}
