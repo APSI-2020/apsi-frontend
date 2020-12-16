@@ -6,6 +6,7 @@ import { Route, Switch, useRouteMatch, useHistory } from 'react-router-dom';
 import { LayoutWrapper } from '../../components';
 import { userLoggedIn } from '../../reducers';
 import { Login } from '../Login';
+import { Register } from '../Register';
 
 export const UserAuthorizationRouter = () => {
   const { url } = useRouteMatch();
@@ -14,7 +15,7 @@ export const UserAuthorizationRouter = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if (typeof token !== 'undefined') {
+    if (token !== null) {
       //auto sign in
       dispatch(userLoggedIn(token));
       history.push('/');
@@ -27,7 +28,7 @@ export const UserAuthorizationRouter = () => {
     <LayoutWrapper>
       <Switch>
         <Route path={`${url}/login`} exact component={Login} />
-        <Route path={`${url}/register`} exact />
+        <Route path={`${url}/register`} exact component={Register} />
       </Switch>
     </LayoutWrapper>
   );

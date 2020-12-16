@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
 import { unwrapResult } from '@reduxjs/toolkit';
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
+import { EmailFormItem, PasswordFormItem } from '../../components';
 import { loginUser } from '../../reducers';
 
 const formNames = {
@@ -46,64 +47,33 @@ export const Login = () => {
   }, []);
 
   return (
-    <Form form={form} layout='vertical' onFinish={onFormFinish}>
-      <Form.Item
-        label='Email'
-        name={formNames.email}
-        rules={[
-          {
-            type: 'email',
-            required: true,
-            message: 'Nie jest to poprawny adres email',
-          },
-          {
-            whitespace: true,
-            required: true,
-            message: 'Login nie może być pusty',
-          },
-          {
-            min: 3,
-            required: true,
-            message: 'Wymagane są conajmniej 3 znaki',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name={formNames.password}
-        label='Hasło'
-        rules={[
-          {
-            required: true,
-            whitespace: true,
-            message: 'Hasło nie może być puste',
-          },
-          {
-            required: true,
-            min: 8,
-            message: 'Hasło musi zawierać conajmniej 8 znaków',
-          },
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-      <Form.Item shouldUpdate={true}>
-        {() => (
-          <Button
-            type='primary'
-            htmlType='submit'
-            loading={loading}
-            disabled={
-              !form.isFieldsTouched(true) ||
-              form.getFieldsError().filter(({ errors }) => errors.length).length ||
-              loading
-            }
-          >
-            Zaloguj
-          </Button>
-        )}
-      </Form.Item>
-    </Form>
+    <>
+      <Form form={form} layout='vertical' onFinish={onFormFinish}>
+        <EmailFormItem labelName={formNames.email} />
+        <PasswordFormItem labelName={formNames.password} />
+        <Form.Item shouldUpdate={true}>
+          {() => (
+            <Button
+              type='primary'
+              htmlType='submit'
+              loading={loading}
+              disabled={
+                !form.isFieldsTouched(true) ||
+                form.getFieldsError().filter(({ errors }) => errors.length).length ||
+                loading
+              }
+            >
+              Zaloguj
+            </Button>
+          )}
+        </Form.Item>
+        <Form.Item>
+          Nie masz konta?
+          <Link to='/auth/register'>
+            <Button type='link'>Zarejestruj się</Button>
+          </Link>
+        </Form.Item>
+      </Form>
+    </>
   );
 };

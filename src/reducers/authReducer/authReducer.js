@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { signIn } from '../../api';
+import { signIn, signUp } from '../../api';
 
 export const userLoggedIn = createAction('auth/userLoggedIn');
 
@@ -12,6 +12,18 @@ export const loginUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const registerUser = createAsyncThunk(
+  'auth/registerUser',
+  async (values, { rejectWithValue, dispatch }) => {
+    try {
+      await signUp(values);
+      dispatch(loginUser(values));
+    } catch (error) {
+      return rejectWithValue(error);
     }
   },
 );
@@ -37,6 +49,12 @@ export const authSlice = createSlice({
       sessionStorage.setItem('token', state.token);
     },
     [loginUser.rejected]: (state) => {
+      state.loading = false;
+    },
+    [registerUser.pending]: (state) => {
+      state.loading = true;
+    },
+    [registerUser.rejected]: (state) => {
       state.loading = false;
     },
   },
