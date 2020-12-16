@@ -35,7 +35,7 @@ const EventElementContent = ({ event }) => {
     },
     {
       label: 'Liczba uczestników',
-      value: event.amountOfParticipants,
+      value: event.amount_of_participants,
     },
   ];
 
@@ -61,9 +61,9 @@ export const EventsView = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    //   if (isUserLoggedIn) {
-    dispatch(fetchAllEvents());
-    //   }
+    if (isUserLoggedIn) {
+      dispatch(fetchAllEvents());
+    }
   }, [dispatch, isUserLoggedIn]);
 
   return (
@@ -86,7 +86,7 @@ export const EventsView = () => {
               avatar={<CalendarOutlined />}
             />
             <EventElementContent event={item} />
-            <EventsTagList event={item} />
+            {/* <EventsTagList event={item} /> */}
           </List.Item>
         )}
       />
