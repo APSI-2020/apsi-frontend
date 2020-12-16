@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import { UserAuthorizationRouter } from './auth';
-import { LayoutRoute } from './components';
+import { LayoutRoute, AuthorizedRoute } from './components';
 import logo from './logo.svg';
 import { dataActionNames } from './reducers/dataReducer/actions';
 import { EventsView } from './views';
@@ -40,7 +40,7 @@ export const AppRouter = () => {
   return (
     <Switch>
       <Route path={`${url}auth/`} component={UserAuthorizationRouter} />
-      <LayoutRoute path={'/events'} component={EventsView} />
+      <AuthorizedRoute path={'/events'} component={EventsView} />
       <LayoutRoute path={'/'} exact component={Main} />
     </Switch>
   );
