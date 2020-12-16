@@ -113,7 +113,7 @@ export const EventView = () => {
         let id = parseInt(urlSearchParams.get('id'));
         dispatch(fetchOneEvent(id));
       } else {
-        window.history.back();
+        history.goBack();
       }
     }
   }, [dispatch, isUserLoggedIn]);
@@ -122,7 +122,7 @@ export const EventView = () => {
     return (
       <PageHeader
         className='site-page-header event--view'
-        onBack={() => window.history.back()}
+        onBack={() => history.goBack()}
         title={event.name}
         extra={
           !event.is_signed_up_for
