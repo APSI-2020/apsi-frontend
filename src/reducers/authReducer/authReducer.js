@@ -1,4 +1,5 @@
 import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { axios } from 'axios';
 
 import { signIn, signUp } from '../../api';
 

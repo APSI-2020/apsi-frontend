@@ -81,7 +81,7 @@ export const EventsView = () => {
           <List.Item key={item.id}>
             <List.Item.Meta
               className={'events--list-view--item--meta'}
-              title={<Link to={`/events?id=${item.id}`}>{item.name}</Link>}
+              title={<Link to={`/event?id=${item.id}`}>{item.name}</Link>}
               description={''}
               avatar={<CalendarOutlined />}
             />
