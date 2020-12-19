@@ -47,6 +47,7 @@ export const authSlice = createSlice({
     [loginUser.fulfilled]: (state, action) => {
       state.isUserLoggedIn = true;
       state.token = action.payload.access;
+      state.loading = false;
       sessionStorage.setItem('token', state.token);
     },
     [loginUser.rejected]: (state) => {
