@@ -3,10 +3,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Button, Col, Form, message, Row, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { EmailFormItem, PasswordFormItem } from '../../components';
 import { loginUser } from '../../reducers';
+import { useRedirect } from '../../utils';
 
 const formNames = {
   email: 'email',
@@ -18,14 +19,14 @@ export const Login = () => {
   const [, forceUpdate] = useState();
   const loading = useSelector((state) => state.auth.loading);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const [redirect, redirectTo] = useRedirect();
 
   const onFormFinish = useCallback(
     (values) => {
       dispatch(loginUser(values))
         .then(unwrapResult)
         .then(() => {
-          history.push('/');
+          redirectTo();
         })
         .catch((error) => {
           form.setFields(
@@ -38,7 +39,7 @@ export const Login = () => {
           }
         });
     },
-    [dispatch, history, form],
+    [dispatch, form, redirectTo],
   );
 
   // To disable submit button at the beginning.
@@ -73,7 +74,7 @@ export const Login = () => {
           </Form.Item>
           <Form.Item>
             Nie masz konta?
-            <Link to='/auth/register'>
+            <Link to={`/auth/register${redirect.search}`}>
               <Button type='link'>Zarejestruj się</Button>
             </Link>
           </Form.Item>

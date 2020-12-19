@@ -3,7 +3,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Button, Col, Form, Input, notification, Row, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 
 import {
   ConfirmPasswordFormItem,
@@ -11,6 +10,7 @@ import {
   PasswordFormItem,
 } from '../../components';
 import { registerUser } from '../../reducers';
+import { useRedirect } from '../../utils';
 
 const formNames = {
   email: 'email',
@@ -38,14 +38,14 @@ export const Register = () => {
   const [, forceUpdate] = useState();
   const loading = useSelector((state) => state.auth.loading);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const [, redirectTo] = useRedirect();
 
   const onFormFinish = useCallback(
     (values) => {
       dispatch(registerUser(values))
         .then(unwrapResult)
         .then(() => {
-          history.push('/');
+          redirectTo();
         })
         .catch(() => {
           notification.error(
@@ -57,7 +57,7 @@ export const Register = () => {
           );
         });
     },
-    [dispatch, history],
+    [dispatch, redirectTo],
   );
 
   useEffect(() => {
