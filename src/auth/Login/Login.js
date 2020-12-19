@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
 import { unwrapResult } from '@reduxjs/toolkit';
-import { Button, Form, message } from 'antd';
+import { Button, Col, Form, message, Row, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -47,33 +47,38 @@ export const Login = () => {
   }, []);
 
   return (
-    <>
-      <Form form={form} layout='vertical' onFinish={onFormFinish}>
-        <EmailFormItem labelName={formNames.email} />
-        <PasswordFormItem labelName={formNames.password} />
-        <Form.Item shouldUpdate={true}>
-          {() => (
-            <Button
-              type='primary'
-              htmlType='submit'
-              loading={loading}
-              disabled={
-                !form.isFieldsTouched(true) ||
-                form.getFieldsError().filter(({ errors }) => errors.length).length ||
-                loading
-              }
-            >
-              Zaloguj
-            </Button>
-          )}
-        </Form.Item>
-        <Form.Item>
-          Nie masz konta?
-          <Link to='/auth/register'>
-            <Button type='link'>Zarejestruj się</Button>
-          </Link>
-        </Form.Item>
-      </Form>
-    </>
+    <Row>
+      <Col xs={{ span: 24 }} sm={{ span: 12 }}>
+        <Typography.Title level={4}>Logowanie</Typography.Title>
+        <Form form={form} layout='vertical' onFinish={onFormFinish}>
+          <EmailFormItem labelName={formNames.email} />
+          <PasswordFormItem labelName={formNames.password} />
+          <Form.Item shouldUpdate={true}>
+            {() => (
+              <Button
+                type='primary'
+                htmlType='submit'
+                loading={loading}
+                disabled={
+                  !form.isFieldsTouched(true) ||
+                  form.getFieldsError().filter(({ errors }) => errors.length)
+                    .length ||
+                  loading
+                }
+                size='large'
+              >
+                Zaloguj
+              </Button>
+            )}
+          </Form.Item>
+          <Form.Item>
+            Nie masz konta?
+            <Link to='/auth/register'>
+              <Button type='link'>Zarejestruj się</Button>
+            </Link>
+          </Form.Item>
+        </Form>
+      </Col>
+    </Row>
   );
 };

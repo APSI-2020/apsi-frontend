@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
 import { unwrapResult } from '@reduxjs/toolkit';
-import { Button, Form, Input, notification } from 'antd';
+import { Button, Col, Form, Input, notification, Row, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -65,35 +65,42 @@ export const Register = () => {
   }, []);
 
   return (
-    <Form layout='vertical' onFinish={onFormFinish} form={form}>
-      <EmailFormItem labelName={formNames.email} />
-      <Form.Item name={formNames.first_name} label='Imię' rules={commonRules}>
-        <Input />
-      </Form.Item>
-      <Form.Item name={formNames.last_name} label='Nazwisko' rules={commonRules}>
-        <Input />
-      </Form.Item>
-      <PasswordFormItem labelName={formNames.password} />
-      <ConfirmPasswordFormItem
-        labelName={formNames.confirm_password}
-        passwordLabelName={formNames.password}
-      />
-      <Form.Item shouldUpdate={true}>
-        {() => (
-          <Button
-            type='primary'
-            htmlType='submit'
-            loading={loading}
-            disabled={
-              !form.isFieldsTouched(true) ||
-              form.getFieldsError().filter(({ errors }) => errors.length).length ||
-              loading
-            }
-          >
-            Zarejestruj
-          </Button>
-        )}
-      </Form.Item>
-    </Form>
+    <Row>
+      <Col xs={{ span: 24 }} sm={{ span: 12 }}>
+        <Typography.Title level={4}>Rejestracja</Typography.Title>
+        <Form layout='vertical' onFinish={onFormFinish} form={form}>
+          <EmailFormItem labelName={formNames.email} />
+          <Form.Item name={formNames.first_name} label='Imię' rules={commonRules}>
+            <Input />
+          </Form.Item>
+          <Form.Item name={formNames.last_name} label='Nazwisko' rules={commonRules}>
+            <Input />
+          </Form.Item>
+          <PasswordFormItem labelName={formNames.password} />
+          <ConfirmPasswordFormItem
+            labelName={formNames.confirm_password}
+            passwordLabelName={formNames.password}
+          />
+          <Form.Item shouldUpdate={true}>
+            {() => (
+              <Button
+                type='primary'
+                htmlType='submit'
+                loading={loading}
+                disabled={
+                  !form.isFieldsTouched(true) ||
+                  form.getFieldsError().filter(({ errors }) => errors.length)
+                    .length ||
+                  loading
+                }
+                size='large'
+              >
+                Zarejestruj
+              </Button>
+            )}
+          </Form.Item>
+        </Form>
+      </Col>
+    </Row>
   );
 };

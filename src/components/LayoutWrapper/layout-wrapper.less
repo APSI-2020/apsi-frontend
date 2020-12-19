@@ -1,4 +1,7 @@
 .layout {
+  min-height: 100vh !important;
+  background-color: white !important;
+
   &--header {
     background-color: #c1c1c1 !important;
     color: black;
@@ -12,6 +15,15 @@
 
   &--content {
     padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    background-color: white;
+  }
+
+  &--footer {
+    border-top: 1px solid #cdcdcd;
+    background: white !important;
   }
 }
 
@@ -30,12 +42,5 @@
     margin: 0;
     list-style: none;
     display: flex;
-  }
-
-  .navlink {
-    border-bottom: 2px solid transparent;
-    &__selected {
-      border-bottom-color: black;
-    }
   }
 }

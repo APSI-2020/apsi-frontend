@@ -40,7 +40,7 @@ export const AppRouter = () => {
   return (
     <Switch>
       <Route path={`${url}auth/`} component={UserAuthorizationRouter} />
-      <AuthorizedRoute path={'/events'} component={EventsView} />
+      <LayoutRoute path={'/events'} component={EventsView} />
       <AuthorizedRoute path={'/event'} component={EventView} />
       <LayoutRoute path={'/'} exact component={Main} />
     </Switch>
