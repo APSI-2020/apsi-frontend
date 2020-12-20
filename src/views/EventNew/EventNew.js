@@ -15,25 +15,16 @@ export const EventNew = () => {
   // TODO: fetch from the API
   const lecturers = [
     {
-      value: 1,
-      text: 'Dr inz. Adam Nowak',
+      id: 1,
+      name: 'Dr inz. Adam Nowak',
     },
     {
-      value: 2,
-      text: 'Dr inz. Bartosz Kowalski',
+      id: 2,
+      name: 'Dr inz. Bartosz Kowalski',
     },
   ];
 
-  const places = [
-    {
-      value: 1,
-      text: 'Aula główna',
-    },
-    {
-      value: 2,
-      text: 'Sama E101',
-    },
-  ];
+  const places = useSelector((state) => state.places.places);
 
   const createEvent = useCallback(
     (values) => {
@@ -72,14 +63,14 @@ export const EventNew = () => {
       <Form.Item name={'place'} label='Miejsce'>
         <Select>
           {places.map((d) => (
-            <Select.Option key={d.value}>{d.text}</Select.Option>
+            <Select.Option key={d.id}>{d.name}</Select.Option>
           ))}
         </Select>
       </Form.Item>
       <Form.Item name={'lecturers'} label='Prowadzący'>
         <Select mode='multiple'>
           {lecturers.map((d) => (
-            <Select.Option key={d.value}>{d.text}</Select.Option>
+            <Select.Option key={d.id}>{d.name}</Select.Option>
           ))}
         </Select>
       </Form.Item>
