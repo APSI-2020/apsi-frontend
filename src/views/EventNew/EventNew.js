@@ -6,12 +6,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { putEvent } from '../../reducers';
+import { fetchAllPlaces } from '../../reducers/dataReducer/placeReducer';
 
 export const EventNew = () => {
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
   const history = useHistory();
   const dispatch = useDispatch();
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (isUserLoggedIn) {
+      dispatch(fetchAllPlaces());
+    }
+  }, [dispatch, isUserLoggedIn]);
+
   // TODO: fetch from the API
   const lecturers = [
     {
