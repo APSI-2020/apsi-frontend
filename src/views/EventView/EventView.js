@@ -11,9 +11,9 @@ import {
   Row,
 } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 
-import { fetchOneEvent } from '../../reducers';
+import { fetchOneEvent, requestEventJoin } from '../../reducers';
 
 const Stats = ({ event }) => {
   return (
@@ -105,18 +105,13 @@ export const EventView = () => {
   const event = useSelector((state) => state.events.event);
   const dispatch = useDispatch();
   const history = useHistory();
+  const { id } = useParams();
 
   useEffect(() => {
     if (isUserLoggedIn) {
-      let urlSearchParams = new URLSearchParams(window.location.search);
-      if (urlSearchParams.has('id')) {
-        let id = parseInt(urlSearchParams.get('id'));
-        dispatch(fetchOneEvent(id));
-      } else {
-        history.goBack();
-      }
+      dispatch(fetchOneEvent(id));
     }
-  }, [dispatch, isUserLoggedIn]);
+  }, [dispatch, isUserLoggedIn, id]);
 
   if (event) {
     return (
@@ -127,7 +122,13 @@ export const EventView = () => {
         extra={
           !event.is_signed_up_for
             ? [
-                <Button key='1' type='primary'>
+                <Button
+                  onClick={() => {
+                    dispatch(requestEventJoin(id));
+                  }}
+                  key='1'
+                  type='primary'
+                >
                   Zapisz się
                 </Button>,
               ]
