@@ -9,3 +9,7 @@ export const getEvents = async () => {
 export const getEvent = async (eventId) => {
   return await axios.get(`${eventsEndpoint}/${eventId}`);
 };
+
+export const createEvent = async (values) => {
+  return await axios.put(`${eventsEndpoint}/`, values);
+};
