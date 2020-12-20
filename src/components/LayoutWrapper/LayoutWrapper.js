@@ -12,6 +12,8 @@ const UserAccountNavigation = () => {
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
   return (
     <div className='navigation--user-wrapper'>
+      {isUserLoggedIn && <Link to={'/events/new'}>Nowe wydarzenie</Link>}
+      {isUserLoggedIn && <Link to={'/events'}>Wydarzenia</Link>}
       {!isUserLoggedIn && <Link to={'/auth/login'}>Zaloguj</Link>}
       {isUserLoggedIn && <div>Testowy użytkownik</div>}
     </div>
