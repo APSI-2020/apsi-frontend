@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { getEvents, getEvent } from '../../api';
+import { getEvents, getEvent, joinEvent } from '../../api';
 
 const fetchEvents = createAsyncThunk('events/fetchAll', async ({}, thunkApi) => {
   let events = await getEvents();
@@ -15,12 +15,27 @@ const fetchEvent = createAsyncThunk(
   },
 );
 
+const joinEventAction = createAsyncThunk(
+  'events/join',
+  async ({ eventId }, { dispatch }) => {
+    let event = await joinEvent(eventId);
+    dispatch(fetchEvent({ eventId }));
+    return event.data;
+  },
+);
+
 export const fetchAllEvents = () => {
   return fetchEvents({});
 };
 
 export const fetchOneEvent = (eventId) => {
   return fetchEvent({
+    eventId,
+  });
+};
+
+export const requestEventJoin = (eventId) => {
+  return joinEventAction({
     eventId,
   });
 };
