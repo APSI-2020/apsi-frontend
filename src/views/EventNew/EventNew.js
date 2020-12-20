@@ -60,10 +60,10 @@ export const EventNew = () => {
         <Input />
       </Form.Item>
       <Form.Item name={'start'} label='Data Rozpoczecia'>
-        <DatePicker />
+        <DatePicker style={{ width: '100%' }} />
       </Form.Item>
       <Form.Item name={'end'} label='Data Zakończenia'>
-        <DatePicker />
+        <DatePicker style={{ width: '100%' }} />
       </Form.Item>
       <Form.Item name={'limit_of_participants'} label='Limit uczestników'>
         <Input />
