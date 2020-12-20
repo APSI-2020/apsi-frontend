@@ -8,14 +8,8 @@ export const EventNew = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (!isUserLoggedIn) {
-      history.goBack();
-    }
-  }, [dispatch, isUserLoggedIn]);
-
   const onSubmit = () => {
-    console.log('Fomr submitted');
+    console.log('Form submitted');
   };
 
   return (
