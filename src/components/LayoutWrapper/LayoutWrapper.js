@@ -2,7 +2,9 @@ import React from 'react';
 
 import { Col, Layout, Row } from 'antd';
 import { useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+import { NavLink } from '../NavLink';
 
 const { Header, Content, Footer } = Layout;
 
@@ -10,7 +12,6 @@ const UserAccountNavigation = () => {
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
   return (
     <div className='navigation--user-wrapper'>
-      {isUserLoggedIn && <Link to={'/events'}>Wydarzenia</Link>}
       {!isUserLoggedIn && <Link to={'/auth/login'}>Zaloguj</Link>}
       {isUserLoggedIn && <div>Testowy użytkownik</div>}
     </div>
@@ -21,9 +22,10 @@ const ViewNavigation = () => {
   return (
     <ul className='navigation--view-wrapper'>
       <li>
-        <NavLink className='navlink' activeClassName='navlink__selected' to='/'>
+        <NavLink exact={true} to='/'>
           Main
         </NavLink>
+        <NavLink to={'/events'}>Wydarzenia</NavLink>
       </li>
     </ul>
   );
@@ -45,17 +47,15 @@ export const LayoutWrapper = ({ children }) => {
         <Navigation />
       </Header>
       <Content className='layout--content'>
-        <Col span={24}>
-          <Row
-            xs={{ span: 24 }}
-            md={{ span: 12, offset: 12 }}
-            lg={{ span: 10, offset: 12 }}
-          >
-            {children}
-          </Row>
-        </Col>
+        <Row
+          xs={{ span: 24 }}
+          md={{ span: 12, offset: 12 }}
+          lg={{ span: 10, offset: 12 }}
+        >
+          <Col span={24}>{children}</Col>
+        </Row>
       </Content>
-      <Footer>@APSI 2020</Footer>
+      <Footer className='layout--footer'>@APSI 2020</Footer>
     </Layout>
   );
 };
