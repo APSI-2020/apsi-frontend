@@ -8,7 +8,7 @@ import { UserAuthorizationRouter } from './auth';
 import { LayoutRoute, AuthorizedRoute } from './components';
 import logo from './logo.svg';
 import { dataActionNames } from './reducers/dataReducer/actions';
-import { EventsView, EventView } from './views';
+import { EventsView, EventView, EventNew } from './views';
 
 const Main = () => {
   const counter = useSelector((state) => state.dataReducer.counter);
@@ -40,6 +40,7 @@ export const AppRouter = () => {
   return (
     <Switch>
       <Route path={`${url}auth/`} component={UserAuthorizationRouter} />
+      <AuthorizedRoute path={'/events/new'} component={EventNew} />
       <AuthorizedRoute path={'/events'} component={EventsView} />
       <AuthorizedRoute path={'/event'} component={EventView} />
       <LayoutRoute path={'/'} exact component={Main} />
