@@ -16,7 +16,7 @@ export const PasswordFormItem = ({ labelName }) => {
         {
           required: true,
           min: 8,
-          message: 'Hasło musi zawierać conajmniej 8 znaków',
+          message: 'Hasło musi zawierać co najmniej 8 znaków',
         },
       ]}
     >

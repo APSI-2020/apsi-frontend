@@ -29,7 +29,7 @@ const commonRules = [
   {
     min: 3,
     required: 3,
-    message: 'Wymagane są conajmniej 3 znaki',
+    message: 'Wymagane są co najmniej 3 znaki',
   },
 ];
 

@@ -21,7 +21,7 @@ export const EmailFormItem = ({ labelName }) => {
         {
           min: 3,
           required: true,
-          message: 'Wymagane są conajmniej 3 znaki',
+          message: 'Wymagane są co najmniej 3 znaki',
         },
       ]}
     >
