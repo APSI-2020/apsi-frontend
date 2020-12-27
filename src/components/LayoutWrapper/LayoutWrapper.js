@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { NavLink } from '../NavLink';
+import { UserDropdown } from '../UserDropdown';
 
 const { Header, Content, Footer } = Layout;
 
@@ -12,22 +13,24 @@ const UserAccountNavigation = () => {
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
   return (
     <div className='navigation--user-wrapper'>
-      {isUserLoggedIn && <Link to={'/events/new'}>Nowe wydarzenie</Link>}
-      {isUserLoggedIn && <Link to={'/events'}>Wydarzenia</Link>}
       {!isUserLoggedIn && <Link to={'/auth/login'}>Zaloguj</Link>}
-      {isUserLoggedIn && <div>Testowy użytkownik</div>}
+      {isUserLoggedIn && <UserDropdown />}
     </div>
   );
 };
 
 const ViewNavigation = () => {
+  const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
   return (
     <ul className='navigation--view-wrapper'>
       <li>
         <NavLink exact={true} to='/'>
           Main
         </NavLink>
-        <NavLink to={'/events'}>Wydarzenia</NavLink>
+        <NavLink to={'/events'} exact={true}>
+          Wydarzenia
+        </NavLink>
+        {isUserLoggedIn && <NavLink to={'/events/new'}>Nowe wydarzenie</NavLink>}
       </li>
     </ul>
   );

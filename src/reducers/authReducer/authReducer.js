@@ -1,15 +1,17 @@
 import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { axios } from 'axios';
 
 import { signIn, signUp } from '../../api';
+import { userData } from '../userReducer';
 
 export const userLoggedIn = createAction('auth/userLoggedIn');
 
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
-  async (values, { rejectWithValue }) => {
+  async (values, { rejectWithValue, dispatch }) => {
     try {
       const response = await signIn(values);
+      sessionStorage.setItem('token', response.data.access);
+      dispatch(userData());
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -28,6 +30,8 @@ export const registerUser = createAsyncThunk(
     }
   },
 );
+
+export const signOut = createAction('auth/signOut');
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -48,7 +52,6 @@ export const authSlice = createSlice({
       state.isUserLoggedIn = true;
       state.token = action.payload.access;
       state.loading = false;
-      sessionStorage.setItem('token', state.token);
     },
     [loginUser.rejected]: (state) => {
       state.loading = false;
@@ -58,6 +61,11 @@ export const authSlice = createSlice({
     },
     [registerUser.rejected]: (state) => {
       state.loading = false;
+    },
+    [signOut]: (state) => {
+      state.isUserLoggedIn = false;
+      state.token = null;
+      sessionStorage.removeItem('token');
     },
   },
 });
