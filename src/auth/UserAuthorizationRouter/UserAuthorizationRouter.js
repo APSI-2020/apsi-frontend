@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import { LayoutWrapper } from '../../components';
-import { userLoggedIn } from '../../reducers';
+import { userData, userLoggedIn } from '../../reducers';
 import { useRedirect } from '../../utils';
 import { Login } from '../Login';
 import { Register } from '../Register';
@@ -19,6 +19,7 @@ export const UserAuthorizationRouter = () => {
     if (token !== null) {
       //auto sign in
       dispatch(userLoggedIn(token));
+      dispatch(userData());
       redirectTo();
     }
 
