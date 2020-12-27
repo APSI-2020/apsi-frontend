@@ -31,6 +31,7 @@ const ViewNavigation = () => {
           Wydarzenia
         </NavLink>
         {isUserLoggedIn && <NavLink to={'/events/new'}>Nowe wydarzenie</NavLink>}
+        {isUserLoggedIn && <NavLink to={'/calendar'}>Kalendarz</NavLink>}
       </li>
     </ul>
   );
