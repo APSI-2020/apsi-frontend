@@ -9,7 +9,8 @@ const updateViewWidth = () => {
   let calendarTable = document.getElementById('RBS-Scheduler-root');
   let schedulerViewNode = document.getElementsByClassName('scheduler-view')[0];
 
-  calendarTable.style.width = `${0.8 * calendarTable.parentNode.clientWidth}px`;
+  if (calendarTable)
+    calendarTable.style.width = `${0.8 * calendarTable.parentNode.clientWidth}px`;
 
   if (schedulerViewNode)
     schedulerViewNode.style.width = `${

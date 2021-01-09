@@ -2,8 +2,14 @@ import { axios } from '../utils';
 
 const eventsEndpoint = '/events';
 
-export const getEvents = async () => {
-  return await axios.get(eventsEndpoint);
+export const getEvents = async (filters) => {
+  if (!filters) return await axios.get(eventsEndpoint);
+  else
+    return await axios.get(
+      `${eventsEndpoint}?${Object.keys(filters)
+        .map((key) => key + '=' + filters[key])
+        .join('&')}`,
+    );
 };
 
 export const getEvent = async (eventId) => {

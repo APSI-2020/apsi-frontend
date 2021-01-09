@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { fetchAllEvents } from '../../reducers';
+import { EventsFilters } from './EventsFilters';
 
 const EventsTagList = ({ event }) => {
   return (
@@ -68,6 +69,7 @@ export const EventsView = () => {
 
   return (
     <Fragment>
+      <EventsFilters />
       <List
         header={<h2 className={'events--list-view--header'}>Wydarzenia</h2>}
         itemLayout='vertical'
