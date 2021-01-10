@@ -8,7 +8,7 @@ import { UserAuthorizationRouter } from './auth';
 import { LayoutRoute, AuthorizedRoute } from './components';
 import logo from './logo.svg';
 import { dataActionNames } from './reducers/dataReducer/actions';
-import { CalendarView, EventsView, EventView, EventNew } from './views';
+import { CalendarView, EventsView, EventView, EventNew, PaymentView } from './views';
 
 const Main = () => {
   const counter = useSelector((state) => state.dataReducer.counter);
@@ -44,6 +44,7 @@ export const AppRouter = () => {
       <AuthorizedRoute exact path={'/events'} component={EventsView} />
       <AuthorizedRoute path={'/events/:id'} component={EventView} />
       <AuthorizedRoute path={'/calendar'} component={CalendarView} />
+      <AuthorizedRoute path={`${url}payments/:eventId`} component={PaymentView} />
       <LayoutRoute path={'/'} exact component={Main} />
     </Switch>
   );

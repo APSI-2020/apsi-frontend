@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 
 import { UserOutlined } from '@ant-design/icons';
+import { unwrapResult } from '@reduxjs/toolkit';
 import {
   Avatar,
   PageHeader,
@@ -11,9 +12,10 @@ import {
   Row,
 } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
-import { fetchOneEvent, requestEventJoin } from '../../reducers';
+import { fetchOneEvent, payForEvent, requestEventJoin } from '../../reducers';
+import { useRedirect } from '../../utils';
 
 const Stats = ({ event }) => {
   return (
@@ -106,6 +108,18 @@ export const EventView = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
+  const [, redirectTo] = useRedirect();
+
+  const onButtonClick = async () => {
+    await dispatch(requestEventJoin(id));
+    if (event.price) {
+      dispatch(payForEvent(id))
+        .then(unwrapResult)
+        .then(() => {
+          redirectTo(`/payments/${id}`);
+        });
+    }
+  };
 
   useEffect(() => {
     if (isUserLoggedIn) {
@@ -122,13 +136,7 @@ export const EventView = () => {
         extra={
           !event.is_signed_up_for
             ? [
-                <Button
-                  onClick={() => {
-                    dispatch(requestEventJoin(id));
-                  }}
-                  key='1'
-                  type='primary'
-                >
+                <Button onClick={onButtonClick} key='1' type='primary'>
                   Zapisz się
                 </Button>,
               ]
