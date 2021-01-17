@@ -70,15 +70,15 @@ export const authSlice = createSlice({
     [loginUser.rejected]: (state) => {
       state.loading = false;
     },
-    [loginUserWithSSO().pending]: (state) => {
+    [loginUserWithSSO.pending]: (state) => {
       state.loading = true;
     },
-    [loginUserWithSSO().fulfilled]: (state, action) => {
+    [loginUserWithSSO.fulfilled]: (state, action) => {
       state.isUserLoggedIn = true;
       state.token = action.payload.access;
       state.loading = false;
     },
-    [loginUserWithSSO().rejected]: (state) => {
+    [loginUserWithSSO.rejected]: (state) => {
       state.loading = false;
     },
     [registerUser.pending]: (state) => {
