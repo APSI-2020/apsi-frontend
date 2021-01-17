@@ -4,16 +4,30 @@ import { Col, Layout, Row } from 'antd';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { axios } from '../../utils';
 import { NavLink } from '../NavLink';
 import { UserDropdown } from '../UserDropdown';
 
 const { Header, Content, Footer } = Layout;
 
+const redirectToSSO = () => {
+  axios.get('/sso/get-session').then((response) => {
+    const redirectUrl = response.data['redirectUrl'];
+    window.location.replace(redirectUrl);
+  });
+};
+
 const UserAccountNavigation = () => {
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
+
   return (
     <div className='navigation--user-wrapper'>
       {!isUserLoggedIn && <Link to={'/auth/login'}>Zaloguj</Link>}
+      {!isUserLoggedIn && (
+        <Link to={'#'} onClick={redirectToSSO}>
+          Uwierzytelnienie USOS
+        </Link>
+      )}
       {isUserLoggedIn && <UserDropdown />}
     </div>
   );

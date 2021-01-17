@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import { LayoutWrapper } from '../../components';
-import { userData, userLoggedIn } from '../../reducers';
+import { loginUserWithSSO, userData, userLoggedIn } from '../../reducers';
 import { useRedirect } from '../../utils';
 import { Login } from '../Login';
 import { Register } from '../Register';
@@ -16,6 +16,15 @@ export const UserAuthorizationRouter = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const qs = require('query-string');
+    const parsed = qs.parse(window.location.search);
+
+    if (parsed['access_token']) {
+      dispatch(loginUserWithSSO(parsed)).then(() => {
+        redirectTo();
+      });
+    }
+
     if (token !== null) {
       //auto sign in
       dispatch(userLoggedIn(token));
