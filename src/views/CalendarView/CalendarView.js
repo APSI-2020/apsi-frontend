@@ -44,7 +44,13 @@ const CalendarView = ({ state }) => {
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
   const schedulerEvents = useSchedulerEvents();
   const schedulerData = useRef(
-    new SchedulerData(new moment().format(DATE_FORMAT), ViewTypes.Day),
+    new SchedulerData(
+      new moment().format(DATE_FORMAT),
+      ViewTypes.Day,
+      false,
+      false,
+      { eventItemPopoverEnabled: false },
+    ),
   );
 
   useEffect(() => {
