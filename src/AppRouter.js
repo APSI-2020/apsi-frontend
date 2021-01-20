@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 
 import { UserAuthorizationRouter } from './auth';
 import { LayoutRoute, AuthorizedRoute } from './components';
@@ -37,6 +37,20 @@ const Main = () => {
 
 export const AppRouter = () => {
   let { url } = useRouteMatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      history.push(
+        `/auth/login${
+          history.location.search ? history.location.search : 'redirect=/'
+        }`,
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Switch>
       <Route path={`${url}auth/`} component={UserAuthorizationRouter} />
