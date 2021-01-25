@@ -79,7 +79,6 @@ export const eventsSlice = createSlice({
   reducers: {},
   extraReducers: {
     [getQrCode.fulfilled]: (state, action) => {
-      console.log('reducer1!!!');
       state.pdf = action.payload;
     },
     [fetchEvents.fulfilled]: (state, action) => {

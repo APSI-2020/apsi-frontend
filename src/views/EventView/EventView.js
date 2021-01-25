@@ -11,6 +11,7 @@ import {
   Descriptions,
   Row,
 } from 'antd';
+import FileSaver from 'file-saver';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ import {
   getQrCode,
 } from '../../reducers';
 import { useRedirect } from '../../utils';
+import { axios } from '../../utils';
 
 const Stats = ({ event }) => {
   return (
@@ -127,7 +129,9 @@ export const EventView = () => {
   };
 
   const onJoinButtonClicked = async () => {
-    dispatch(getQrCode(id));
+    let result = await axios.get(`/tickets/${id}`);
+    var blob = new Blob([result.data], { type: 'application/pdf' });
+    FileSaver.saveAs(blob, 'filename.pdf');
   };
 
   useEffect(() => {

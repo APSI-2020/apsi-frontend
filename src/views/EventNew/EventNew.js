@@ -24,11 +24,7 @@ export const EventNew = () => {
     }
   }, [dispatch, isUserLoggedIn]);
 
-  // TODO: fetch from the API
   const lecturers = useSelector((state) => {
-    console.log('Wykladowcy wykladowcy');
-    console.log(state.places);
-    console.log('Wykladowcy wykladowcy');
     return state.places.lecturers;
   });
 

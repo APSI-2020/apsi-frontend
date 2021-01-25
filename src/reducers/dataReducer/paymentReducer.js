@@ -13,8 +13,6 @@ export const makePayment = createAsyncThunk('payment', async (eventId) => {
 // prettier-ignore
 export const fetchPayments = createAsyncThunk('payments/fetchAll', async ({}, thunkApi) => {
     let payments = await getPayments();
-    console.log('Payment data');
-    console.log(payments.data);
     return payments.data;
   },
 );
@@ -33,7 +31,6 @@ export const paymentSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchPayments.fulfilled]: (state, action) => {
-      console.log(action);
       state.payments.push(action.payload);
     },
     [payForEvent.pending]: (state) => {

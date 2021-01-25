@@ -8,22 +8,16 @@ import { fetchPayments } from '../../reducers';
 export const PaymentHistoryView = () => {
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
   const payments = useSelector((state) => {
-    console.log(state);
     return state.payments.payments;
   });
   const dispatch = useDispatch();
   useEffect(() => {
     if (isUserLoggedIn) {
-      console.log('Use effect');
       dispatch(fetchPayments({}));
     }
   }, [dispatch, isUserLoggedIn]);
 
   const EventElementContent = ({ event }) => {
-    console.log('event event');
-    console.log(event);
-    console.log(payments);
-    console.log('event event');
     let eventUnwrap = event.event;
     let informations = [
       {
