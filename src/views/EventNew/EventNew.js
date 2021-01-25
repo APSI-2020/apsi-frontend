@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { putEvent } from '../../reducers';
 import {
   fetchAllPlaces,
-  fetchAllLectureres,
+  fetchLectureres,
 } from '../../reducers/dataReducer/placeReducer';
 
 export const EventNew = () => {
@@ -19,26 +19,18 @@ export const EventNew = () => {
 
   useEffect(() => {
     if (isUserLoggedIn) {
-      dispatch(fetchAllLectureres({}));
-      dispatch(fetchAllPlaces());
+      dispatch(fetchLectureres({}));
+      dispatch(fetchAllPlaces({}));
     }
   }, [dispatch, isUserLoggedIn]);
 
   // TODO: fetch from the API
   const lecturers = useSelector((state) => {
+    console.log('Wykladowcy wykladowcy');
     console.log(state.places);
+    console.log('Wykladowcy wykladowcy');
     return state.places.lecturers;
   });
-  // [
-  //   {
-  //     id: 1,
-  //     name: 'Dr inz. Adam Nowak',
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Dr inz. Bartosz Kowalski',
-  //   },
-  // ];
 
   const places = useSelector((state) => {
     return state.places.places;
@@ -88,7 +80,9 @@ export const EventNew = () => {
       <Form.Item name={'lecturers'} label='Prowadzący'>
         <Select mode='multiple'>
           {lecturers.map((d) => (
-            <Select.Option key={d.id}>{d.name}</Select.Option>
+            <Select.Option key={d.id}>
+              {d.title + ' ' + d.first_name + ' ' + d.last_name}
+            </Select.Option>
           ))}
         </Select>
       </Form.Item>

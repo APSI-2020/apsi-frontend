@@ -7,7 +7,7 @@ const fetchPlaces = createAsyncThunk('places/fetchAll', async ({}, thunkApi) => 
   return places.data;
 });
 
-const fetchLectureres = createAsyncThunk(
+export const fetchLectureres = createAsyncThunk(
   'places/lecturers',
   async ({}, thunkApi) => {
     let lecturers = await getLecturers();
@@ -33,7 +33,7 @@ export const placesSlice = createSlice({
   },
   reducers: {},
   extraReducers: {
-    [fetchAllLectureres.fulfilled]: (state, action) => {
+    [fetchLectureres.fulfilled]: (state, action) => {
       console.log(action);
       console.log('action');
       state.lecturers = action.payload;
