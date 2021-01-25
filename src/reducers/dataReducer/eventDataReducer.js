@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { getEvents, getEvent, createEvent, joinEvent } from '../../api';
+import { getEvents, getEvent, createEvent, joinEvent, getQr } from '../../api';
 
 const fetchEvents = createAsyncThunk(
   'events/fetchAll',
@@ -49,8 +49,22 @@ export const putEvent = createAsyncThunk(
   },
 );
 
+export const getQrCodeFull = createAsyncThunk(
+  'events/qr',
+  async ({ eventId }, thunkApi) => {
+    let event = await getQr(eventId);
+    return event.data;
+  },
+);
+
 export const requestEventJoin = (eventId) => {
   return joinEventAction({
+    eventId,
+  });
+};
+
+export const getQrCode = (eventId) => {
+  return getQrCodeFull({
     eventId,
   });
 };
@@ -60,9 +74,14 @@ export const eventsSlice = createSlice({
   initialState: {
     events: [],
     event: null,
+    pdf: null,
   },
   reducers: {},
   extraReducers: {
+    [getQrCode.fulfilled]: (state, action) => {
+      console.log('reducer1!!!');
+      state.pdf = action.payload;
+    },
     [fetchEvents.fulfilled]: (state, action) => {
       state.events = action.payload;
     },

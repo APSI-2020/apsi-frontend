@@ -3,7 +3,7 @@ import React, { Fragment, useEffect } from 'react';
 import { List } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchAllPayments } from '../../reducers';
+import { fetchAllPayments, fetchPayments } from '../../reducers';
 
 export const PaymentHistoryView = () => {
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
@@ -16,6 +16,7 @@ export const PaymentHistoryView = () => {
     if (isUserLoggedIn) {
       console.log('Use effect');
       dispatch(fetchAllPayments());
+      dispatch(fetchPayments());
     }
   }, [dispatch, isUserLoggedIn]);
 

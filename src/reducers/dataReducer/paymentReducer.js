@@ -32,7 +32,7 @@ export const paymentSlice = createSlice({
   },
   reducers: {},
   extraReducers: {
-    [fetchAllPayments.fulfilled]: (state, action) => {
+    [fetchPayments.fulfilled]: (state, action) => {
       console.log(action);
       state.payments.push(action.payload);
     },

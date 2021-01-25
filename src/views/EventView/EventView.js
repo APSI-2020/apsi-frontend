@@ -14,7 +14,12 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
-import { fetchOneEvent, payForEvent, requestEventJoin } from '../../reducers';
+import {
+  fetchOneEvent,
+  payForEvent,
+  requestEventJoin,
+  getQrCode,
+} from '../../reducers';
 import { useRedirect } from '../../utils';
 
 const Stats = ({ event }) => {
@@ -121,6 +126,10 @@ export const EventView = () => {
     }
   };
 
+  const onJoinButtonClicked = async () => {
+    dispatch(getQrCode(id));
+  };
+
   useEffect(() => {
     if (isUserLoggedIn) {
       dispatch(fetchOneEvent(id));
@@ -140,7 +149,11 @@ export const EventView = () => {
                   Zapisz się
                 </Button>,
               ]
-            : []
+            : [
+                <Button onClick={onJoinButtonClicked} key='2' type='primary'>
+                  Dołącz
+                </Button>,
+              ]
         }
       >
         <Infos event={event} />
