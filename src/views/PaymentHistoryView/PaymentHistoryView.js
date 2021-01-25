@@ -3,7 +3,7 @@ import React, { Fragment, useEffect } from 'react';
 import { List } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchAllPayments, fetchPayments } from '../../reducers';
+import { fetchPayments } from '../../reducers';
 
 export const PaymentHistoryView = () => {
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
@@ -15,26 +15,53 @@ export const PaymentHistoryView = () => {
   useEffect(() => {
     if (isUserLoggedIn) {
       console.log('Use effect');
-      dispatch(fetchAllPayments());
-      dispatch(fetchPayments());
+      dispatch(fetchPayments({}));
     }
   }, [dispatch, isUserLoggedIn]);
 
   const EventElementContent = ({ event }) => {
+    console.log('event event');
+    console.log(event);
+    console.log(payments);
+    console.log('event event');
+    let eventUnwrap = event.event;
     let informations = [
       {
-        label: 'Start',
-        value: event.start,
-      },
-      {
-        label: 'Koniec',
-        value: event.end,
+        label: 'Nazwa',
+        value: eventUnwrap.name,
       },
       {
         label: 'Liczba uczestników',
-        value: event.amount_of_participants,
+        value: eventUnwrap.amount_of_participants,
+      },
+      {
+        label: 'Cena',
+        value: event.price,
+      },
+      {
+        label: 'Miejsce',
+        value: eventUnwrap.place.name,
+      },
+      {
+        label: 'Czas rozpoczecia',
+        value: eventUnwrap.start,
       },
     ];
+
+    return (
+      <Fragment>
+        <List
+          header={<h4 className={'events--informations--header'}>Informacje:</h4>}
+          dataSource={informations}
+          renderItem={(item) => (
+            <List.Item className={'events--informations--item'}>
+              <b>{item.label}: </b>
+              {item.value}
+            </List.Item>
+          )}
+        />
+      </Fragment>
+    );
   };
 
   return (
@@ -45,7 +72,7 @@ export const PaymentHistoryView = () => {
           header={<h2 className={'events--list-view--header'}>Płatności</h2>}
           itemLayout='vertical'
           size='default'
-          dataSource={payments}
+          dataSource={payments[0]}
           pagination={{
             onChange: (page) => {},
             pageSize: 2,
@@ -53,7 +80,6 @@ export const PaymentHistoryView = () => {
           renderItem={(item) => (
             <List.Item key={item.id}>
               <EventElementContent event={item} />
-              {/* <EventsTagList event={item} /> */}
             </List.Item>
           )}
         />
