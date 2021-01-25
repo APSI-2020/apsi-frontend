@@ -6,8 +6,8 @@ import {
   eventsSlice,
   userSlice,
   paymentSlice,
+  placesSlice,
 } from './reducers';
-import { placesSlice } from './reducers/dataReducer/placeReducer';
 
 const rootReducer = combineReducers({
   dataReducer,

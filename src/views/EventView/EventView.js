@@ -11,11 +11,18 @@ import {
   Descriptions,
   Row,
 } from 'antd';
+import FileSaver from 'file-saver';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
-import { fetchOneEvent, payForEvent, requestEventJoin } from '../../reducers';
+import {
+  fetchOneEvent,
+  payForEvent,
+  requestEventJoin,
+  getQrCode,
+} from '../../reducers';
 import { useRedirect } from '../../utils';
+import { axios } from '../../utils';
 
 const Stats = ({ event }) => {
   return (
@@ -121,6 +128,12 @@ export const EventView = () => {
     }
   };
 
+  const onJoinButtonClicked = async () => {
+    let result = await axios.get(`/tickets/${id}`);
+    var blob = new Blob([result.data], { type: 'application/pdf' });
+    FileSaver.saveAs(blob, 'filename.pdf');
+  };
+
   useEffect(() => {
     if (isUserLoggedIn) {
       dispatch(fetchOneEvent(id));
@@ -140,7 +153,11 @@ export const EventView = () => {
                   Zapisz się
                 </Button>,
               ]
-            : []
+            : [
+                <Button onClick={onJoinButtonClicked} key='2' type='primary'>
+                  Dołącz
+                </Button>,
+              ]
         }
       >
         <Infos event={event} />

@@ -23,3 +23,7 @@ export const createEvent = async (values) => {
 export const joinEvent = async (eventId) => {
   return await axios.post(`${eventsEndpoint}/${eventId}/join`);
 };
+
+export const getQr = async (eventId) => {
+  return await axios.get(`/tickets/${eventId}`);
+};

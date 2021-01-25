@@ -6,7 +6,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { putEvent } from '../../reducers';
-import { fetchAllPlaces } from '../../reducers/dataReducer/placeReducer';
+import {
+  fetchAllPlaces,
+  fetchLectureres,
+} from '../../reducers/dataReducer/placeReducer';
 
 export const EventNew = () => {
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
@@ -16,23 +19,18 @@ export const EventNew = () => {
 
   useEffect(() => {
     if (isUserLoggedIn) {
-      dispatch(fetchAllPlaces());
+      dispatch(fetchLectureres({}));
+      dispatch(fetchAllPlaces({}));
     }
   }, [dispatch, isUserLoggedIn]);
 
-  // TODO: fetch from the API
-  const lecturers = [
-    {
-      id: 1,
-      name: 'Dr inz. Adam Nowak',
-    },
-    {
-      id: 2,
-      name: 'Dr inz. Bartosz Kowalski',
-    },
-  ];
+  const lecturers = useSelector((state) => {
+    return state.places.lecturers;
+  });
 
-  const places = useSelector((state) => state.places.places);
+  const places = useSelector((state) => {
+    return state.places.places;
+  });
 
   const createEvent = useCallback(
     (values) => {
@@ -78,7 +76,9 @@ export const EventNew = () => {
       <Form.Item name={'lecturers'} label='Prowadzący'>
         <Select mode='multiple'>
           {lecturers.map((d) => (
-            <Select.Option key={d.id}>{d.name}</Select.Option>
+            <Select.Option key={d.id}>
+              {d.title + ' ' + d.first_name + ' ' + d.last_name}
+            </Select.Option>
           ))}
         </Select>
       </Form.Item>
