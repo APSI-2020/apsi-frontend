@@ -6,7 +6,14 @@ import { Link, Route, Switch, useHistory, useRouteMatch } from 'react-router-dom
 
 import { UserAuthorizationRouter } from './auth';
 import { LayoutRoute, AuthorizedRoute } from './components';
-import { CalendarView, EventsView, EventView, EventNew, PaymentView } from './views';
+import {
+  CalendarView,
+  EventsView,
+  EventView,
+  EventNew,
+  PaymentView,
+  PaymentHistoryView,
+} from './views';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -69,6 +76,7 @@ export const AppRouter = () => {
     <Switch>
       <Route path={`${url}auth/`} component={UserAuthorizationRouter} />
       <AuthorizedRoute path={'/events/new'} component={EventNew} />
+      <AuthorizedRoute path={'/payments'} component={PaymentHistoryView} />
       <AuthorizedRoute exact path={'/events'} component={EventsView} />
       <AuthorizedRoute path={'/events/:id'} component={EventView} />
       <AuthorizedRoute path={'/calendar'} component={CalendarView} />

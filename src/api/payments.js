@@ -15,3 +15,5 @@ export const makePaymentApi = async (eventId) =>
   axios.post(`${paymentsBaseUrl}/`, {
     event_id: eventId,
   });
+
+export const getPayments = async () => await axios.get(`${paymentsBaseUrl}/`);

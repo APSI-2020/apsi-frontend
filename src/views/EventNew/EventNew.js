@@ -6,7 +6,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { putEvent } from '../../reducers';
-import { fetchAllPlaces } from '../../reducers/dataReducer/placeReducer';
+import {
+  fetchAllPlaces,
+  fetchAllLectureres,
+} from '../../reducers/dataReducer/placeReducer';
 
 export const EventNew = () => {
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
@@ -16,23 +19,30 @@ export const EventNew = () => {
 
   useEffect(() => {
     if (isUserLoggedIn) {
+      dispatch(fetchAllLectureres({}));
       dispatch(fetchAllPlaces());
     }
   }, [dispatch, isUserLoggedIn]);
 
   // TODO: fetch from the API
-  const lecturers = [
-    {
-      id: 1,
-      name: 'Dr inz. Adam Nowak',
-    },
-    {
-      id: 2,
-      name: 'Dr inz. Bartosz Kowalski',
-    },
-  ];
+  const lecturers = useSelector((state) => {
+    console.log(state.places);
+    return state.places.lecturers;
+  });
+  // [
+  //   {
+  //     id: 1,
+  //     name: 'Dr inz. Adam Nowak',
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'Dr inz. Bartosz Kowalski',
+  //   },
+  // ];
 
-  const places = useSelector((state) => state.places.places);
+  const places = useSelector((state) => {
+    return state.places.places;
+  });
 
   const createEvent = useCallback(
     (values) => {
