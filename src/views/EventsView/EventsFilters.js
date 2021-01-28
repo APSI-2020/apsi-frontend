@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback, useState, useEffect } from 'react';
 
-import { DatePicker, Input, InputNumber, Form, Collapse } from 'antd';
+import { DatePicker, Input, InputNumber, Form, Collapse, Checkbox } from 'antd';
 import { useDispatch } from 'react-redux';
 
 import { fetchAllEvents } from '../../reducers';
@@ -35,7 +35,9 @@ Date.prototype.toIsoString = function () {
 };
 
 export const EventsFilters = () => {
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    only_not_cyclical_and_roots: true,
+  });
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -108,6 +110,20 @@ export const EventsFilters = () => {
     [filters, setFilters],
   );
 
+  const onOnlyNotCyclicalAndRootsChanged = useCallback(
+    (e) => {
+      let filtersCpy = { ...filters };
+      if (e.target.checked) {
+        filtersCpy.only_not_cyclical_and_roots = false;
+      } else {
+        filtersCpy.only_not_cyclical_and_roots = true;
+      }
+
+      setFilters(filtersCpy);
+    },
+    [filters, setFilters],
+  );
+
   return (
     <Fragment>
       <Collapse>
@@ -147,6 +163,12 @@ export const EventsFilters = () => {
           </Form.Item>
           <Form.Item label='Filtr daty'>
             <RangePicker onChange={onDatePickerDatesChanged} />
+          </Form.Item>
+          <Form.Item label='Pokaż wszystkie daty wydarzeń cyklicznych'>
+            <Checkbox
+              checked={!filters.only_not_cyclical_and_roots}
+              onChange={onOnlyNotCyclicalAndRootsChanged}
+            />
           </Form.Item>
           <Form />
         </Panel>
