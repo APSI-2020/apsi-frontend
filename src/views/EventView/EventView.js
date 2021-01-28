@@ -129,7 +129,9 @@ export const EventView = () => {
   };
 
   const onJoinButtonClicked = async () => {
-    let result = await axios.get(`/tickets/${id}`);
+    let result = await axios.get(`/tickets/${id}`, {
+      responseType: 'blob',
+    });
     var blob = new Blob([result.data], { type: 'application/pdf' });
     FileSaver.saveAs(blob, 'filename.pdf');
   };
