@@ -76,7 +76,11 @@ export const AppRouter = () => {
     <Switch>
       <Route path={`${url}auth/`} component={UserAuthorizationRouter} />
       <AuthorizedRoute path={'/events/new'} component={EventNew} />
-      <AuthorizedRoute path={'/payments'} component={PaymentHistoryView} />
+      <AuthorizedRoute
+        path={'/payments'}
+        component={PaymentHistoryView}
+        exact={true}
+      />
       <AuthorizedRoute exact path={'/events'} component={EventsView} />
       <AuthorizedRoute path={'/events/:id'} component={EventView} />
       <AuthorizedRoute path={'/calendar'} component={CalendarView} />
