@@ -131,7 +131,7 @@ export const EventView = () => {
   const onJoinButtonClicked = async () => {
     let result = await axios.get(`/tickets/${id}`);
     var blob = new Blob([result.data], { type: 'application/pdf' });
-    FileSaver.saveAs(blob, 'filename.pdf');
+    FileSaver.saveAs(blob, `${event.name}.pdf`);
   };
 
   useEffect(() => {
@@ -155,7 +155,7 @@ export const EventView = () => {
               ]
             : [
                 <Button onClick={onJoinButtonClicked} key='2' type='primary'>
-                  Dołącz
+                  Pobierz wejściówkę
                 </Button>,
               ]
         }

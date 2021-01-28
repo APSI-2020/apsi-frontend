@@ -15,12 +15,17 @@ export const userData = createAsyncThunk(
   },
 );
 
+const lecturerGroupName = 'Lecturer';
+
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
     loadingData: false,
     firstName: '',
     lastName: '',
+    allowedTo: {
+      addEvents: false,
+    },
   },
   extraReducers: {
     [userData.pending]: (state) => {
@@ -30,6 +35,9 @@ export const userSlice = createSlice({
       state.loadingData = false;
       state.firstName = payload['first_name'];
       state.lastName = payload['last_name'];
+
+      if (payload.groups.find((group) => group.name == lecturerGroupName))
+        state.allowedTo.addEvents = true;
     },
     [userData.rejected]: (state) => {
       state.loadingData = false;

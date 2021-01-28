@@ -35,6 +35,8 @@ const UserAccountNavigation = () => {
 
 const ViewNavigation = () => {
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn);
+  const userAllowedTo = useSelector((state) => state.user.allowedTo);
+
   return (
     <ul className='navigation--view-wrapper'>
       <li>
@@ -47,7 +49,9 @@ const ViewNavigation = () => {
         <NavLink to={'/payments'} exact={true}>
           Historia Płatności
         </NavLink>
-        {isUserLoggedIn && <NavLink to={'/events/new'}>Nowe wydarzenie</NavLink>}
+        {isUserLoggedIn && userAllowedTo.addEvents && (
+          <NavLink to={'/events/new'}>Nowe wydarzenie</NavLink>
+        )}
         {isUserLoggedIn && <NavLink to={'/calendar'}>Kalendarz</NavLink>}
       </li>
     </ul>
