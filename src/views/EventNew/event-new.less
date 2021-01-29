@@ -1,0 +1,26 @@
+
+.requirements-space {
+  .ant-space-item {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+    }
+
+  }
+
+  .form-item-requirement {
+    &-type,
+    &-groups {
+      width: 100%;
+      min-width: 200px;
+
+      @media (min-width: 768px) {
+        width: 400px;
+      }
+    }
+  }
+}
+
