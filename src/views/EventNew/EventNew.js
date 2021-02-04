@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { unwrapResult } from '@reduxjs/toolkit';
@@ -37,6 +37,7 @@ export const EventNew = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [form] = Form.useForm();
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     if (isUserLoggedIn) {
@@ -55,12 +56,14 @@ export const EventNew = () => {
 
   const createEvent = useCallback(
     (values) => {
+      setLoading(true);
       dispatch(putEvent(values))
         .then(unwrapResult)
         .then(() => {
           history.push('/');
         })
         .catch((e) => {
+          setLoading(false);
           notification.error(
             {
               message: 'Pojawił się błąd',
@@ -102,7 +105,7 @@ export const EventNew = () => {
           },
         ]}
       >
-        <DatePicker style={{ width: '100%' }} />
+        <DatePicker showTime style={{ width: '100%' }} />
       </Form.Item>
       <Form.Item
         name={'end'}
@@ -114,7 +117,7 @@ export const EventNew = () => {
           },
         ]}
       >
-        <DatePicker style={{ width: '100%' }} />
+        <DatePicker showTime style={{ width: '100%' }} />
       </Form.Item>
       <Form.Item
         name={'limit_of_participants'}
@@ -146,10 +149,10 @@ export const EventNew = () => {
       </Form.Item>
       <Form.Item name={'frequency'} label='Częstotliwość'>
         <Select>
-          <Select.Option key='ONCE'>Once</Select.Option>
-          <Select.Option key='DAILY'>Daily</Select.Option>
-          <Select.Option key='WEEKLY'>Weekly</Select.Option>
-          <Select.Option key='MONTHLY'>Monthly</Select.Option>
+          <Select.Option key='ONCE'>Jednorazowe</Select.Option>
+          <Select.Option key='DAILY'>Codzienne</Select.Option>
+          <Select.Option key='WEEKLY'>Cotygodniowe</Select.Option>
+          <Select.Option key='MONTHLY'>Miesięczne</Select.Option>
         </Select>
       </Form.Item>
       <Form.Item
@@ -241,7 +244,7 @@ export const EventNew = () => {
       </Form.List>
       <Form.Item shouldUpdate={true}>
         {() => (
-          <Button type='primary' htmlType='submit'>
+          <Button type='primary' htmlType='submit' loading={isLoading}>
             Stwórz
           </Button>
         )}
