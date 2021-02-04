@@ -140,7 +140,8 @@ export const EventView = () => {
 
   const eventJoinPayDownloadButton = () => {
     const isNotSignedUpFor = !event.is_signed_up_for;
-    const isUnpaidSigned = !event.payment_made && event.is_signed_up_for;
+    const isUnpaidSigned =
+      !event.payment_made && event.is_signed_up_for && event.price;
     if (isNotSignedUpFor) {
       return [
         <Button onClick={onButtonClick} key='1' type='primary'>

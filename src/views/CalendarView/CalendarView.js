@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import 'react-big-scheduler/lib/css/style.css';
 
-import { fetchAllEvents } from '../../reducers';
+import { fetchEventsCalendar } from '../../reducers';
 import { rgbToHex, randomColor } from '../../utils';
 import { EventsScheduler } from './EventsScheduler';
 
@@ -55,7 +55,7 @@ const CalendarView = ({ state }) => {
 
   useEffect(() => {
     if (isUserLoggedIn) {
-      dispatch(fetchAllEvents());
+      dispatch(fetchEventsCalendar({}));
     }
   }, [dispatch, isUserLoggedIn, location]);
 

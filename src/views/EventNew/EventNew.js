@@ -12,10 +12,11 @@ import {
   Space,
   InputNumber,
 } from 'antd';
+import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { putEvent } from '../../reducers';
+import { getUserGroupsData, putEvent } from '../../reducers';
 import {
   fetchAllPlaces,
   fetchLectureres,
@@ -38,16 +39,30 @@ export const EventNew = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [isLoading, setLoading] = useState(false);
+  const [startDate, setStartDate] = useState(undefined);
+  const [endDate, setEndDate] = useState(null);
+  const [freq, setFreq] = useState('ONCE');
+
+  useEffect(() => {
+    if (startDate) {
+      setEndDate(moment(startDate).add(2, 'hours'));
+    }
+  }, [startDate, setEndDate]);
 
   useEffect(() => {
     if (isUserLoggedIn) {
       dispatch(fetchLectureres({}));
+      dispatch(getUserGroupsData({}));
       dispatch(fetchAllPlaces({}));
     }
   }, [dispatch, isUserLoggedIn]);
 
   const lecturers = useSelector((state) => {
     return state.places.lecturers;
+  });
+
+  const userGroups = useSelector((state) => {
+    return state.events.groups;
   });
 
   const places = useSelector((state) => {
@@ -62,12 +77,13 @@ export const EventNew = () => {
         .then(() => {
           history.push('/');
         })
-        .catch((e) => {
+        .catch((err) => {
           setLoading(false);
           notification.error(
             {
               message: 'Pojawił się błąd',
-              description: 'Prosimy spróbować później',
+              description:
+                err.error !== undefined ? err.error : 'Prosimy spróbować później',
             },
             1.5,
           );
@@ -105,7 +121,13 @@ export const EventNew = () => {
           },
         ]}
       >
-        <DatePicker showTime style={{ width: '100%' }} />
+        <DatePicker
+          showTime
+          style={{ width: '100%' }}
+          onChange={(value) => {
+            setStartDate(value);
+          }}
+        />
       </Form.Item>
       <Form.Item
         name={'end'}
@@ -117,7 +139,17 @@ export const EventNew = () => {
           },
         ]}
       >
-        <DatePicker showTime style={{ width: '100%' }} />
+        <DatePicker
+          showTime
+          style={{ width: '100%' }}
+          value={endDate}
+          disabledDate={(current) => {
+            return !(
+              current.date() === startDate.date() &&
+              current.month() === startDate.month()
+            );
+          }}
+        />
       </Form.Item>
       <Form.Item
         name={'limit_of_participants'}
@@ -148,25 +180,35 @@ export const EventNew = () => {
         </Select>
       </Form.Item>
       <Form.Item name={'frequency'} label='Częstotliwość'>
-        <Select>
-          <Select.Option key='ONCE'>Jednorazowe</Select.Option>
-          <Select.Option key='DAILY'>Codzienne</Select.Option>
-          <Select.Option key='WEEKLY'>Cotygodniowe</Select.Option>
-          <Select.Option key='MONTHLY'>Miesięczne</Select.Option>
+        <Select value={freq} defaultValue={freq} onChange={(val) => setFreq(val)}>
+          <Select.Option key='ONCE' value='ONCE'>
+            Jednorazowe
+          </Select.Option>
+          <Select.Option key='DAILY' value='DAILY'>
+            Codzienne
+          </Select.Option>
+          <Select.Option key='WEEKLY' value='WEEKLY'>
+            Cotygodniowe
+          </Select.Option>
+          <Select.Option key='MONTHLY' value='MONTHLY'>
+            Miesięczne
+          </Select.Option>
         </Select>
       </Form.Item>
-      <Form.Item
-        name={'cyclic_boundary'}
-        label='Data zakończenia wydarzenia cyklicznego'
-        rules={[
-          {
-            required: true,
-            message: 'Proszę wybrać datę zakończenia wydarzenia cyklicznego',
-          },
-        ]}
-      >
-        <DatePicker style={{ width: '100%' }} />
-      </Form.Item>
+      {freq !== 'ONCE' && (
+        <Form.Item
+          name={'cyclic_boundary'}
+          label='Data zakończenia wydarzenia cyklicznego'
+          rules={[
+            {
+              required: true,
+              message: 'Proszę wybrać datę zakończenia wydarzenia cyklicznego',
+            },
+          ]}
+        >
+          <DatePicker style={{ width: '100%' }} />
+        </Form.Item>
+      )}
       <Form.Item
         name={'lecturers'}
         label='Prowadzący'
@@ -223,7 +265,13 @@ export const EventNew = () => {
                     fieldKey={[field.fieldKey, 'groups']}
                     rules={[{ required: true, message: 'Nie może być puste' }]}
                   >
-                    <Select mode='tags' tokenSeparators={[',']} />
+                    <Select mode='tags' tokenSeparators={[',']}>
+                      {userGroups.map((el) => {
+                        return (
+                          <Select.Option key={el.name}>{el.name}</Select.Option>
+                        );
+                      })}
+                    </Select>
                   </Form.Item>
                 </Form.Item>
                 <MinusCircleOutlined onClick={() => remove(field.name)} />

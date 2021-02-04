@@ -1,6 +1,13 @@
 import { createAsyncThunk, createSlice, createAction } from '@reduxjs/toolkit';
 
-import { getEvents, getEvent, createEvent, joinEvent, getQr } from '../../api';
+import {
+  getEvents,
+  getEvent,
+  createEvent,
+  joinEvent,
+  getQr,
+  getGroups,
+} from '../../api';
 
 const fetchEvents = createAsyncThunk('events/fetchAll', async ({}, { getState }) => {
   let filters = getState().events.filters;
@@ -13,6 +20,14 @@ const fetchEvent = createAsyncThunk(
   async ({ eventId }, thunkApi) => {
     let event = await getEvent(eventId);
     return event.data;
+  },
+);
+
+export const fetchEventsCalendar = createAsyncThunk(
+  'events/fetchCalendar',
+  async ({}, { getState }) => {
+    let events = await getEvents({});
+    return events.data;
   },
 );
 
@@ -73,9 +88,18 @@ export const getQrCode = (eventId) => {
   });
 };
 
+export const getUserGroupsData = createAsyncThunk(
+  'events/fetchUserGroups',
+  async ({}, { getState }) => {
+    let userGroups = await getGroups({});
+    return userGroups.data;
+  },
+);
+
 export const eventsSlice = createSlice({
   name: 'events',
   initialState: {
+    groups: [],
     events: [],
     event: null,
     pdf: null,
@@ -85,10 +109,16 @@ export const eventsSlice = createSlice({
   },
   reducers: {},
   extraReducers: {
+    [getUserGroupsData.fulfilled]: (state, action) => {
+      state.groups = action.payload;
+    },
     [getQrCode.fulfilled]: (state, action) => {
       state.pdf = action.payload;
     },
     [fetchEvents.fulfilled]: (state, action) => {
+      state.events = action.payload;
+    },
+    [fetchEventsCalendar.fulfilled]: (state, action) => {
       state.events = action.payload;
     },
     [fetchEvent.fulfilled]: (state, action) => {
