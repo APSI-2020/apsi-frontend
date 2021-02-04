@@ -46,9 +46,11 @@ const ViewNavigation = () => {
         <NavLink to={'/events'} exact={true}>
           Wydarzenia
         </NavLink>
-        <NavLink to={'/payments'} exact={true}>
-          Historia Płatności
-        </NavLink>
+        {isUserLoggedIn && (
+          <NavLink to={'/payments'} exact={true}>
+            Historia Płatności
+          </NavLink>
+        )}
         {isUserLoggedIn && userAllowedTo.addEvents && (
           <NavLink to={'/events/new'}>Nowe wydarzenie</NavLink>
         )}
