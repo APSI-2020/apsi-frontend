@@ -1,14 +1,12 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, createAction } from '@reduxjs/toolkit';
 
 import { getEvents, getEvent, createEvent, joinEvent, getQr } from '../../api';
 
-const fetchEvents = createAsyncThunk(
-  'events/fetchAll',
-  async ({ filters }, thunkApi) => {
-    let events = await getEvents(filters);
-    return events.data;
-  },
-);
+const fetchEvents = createAsyncThunk('events/fetchAll', async ({}, { getState }) => {
+  let filters = getState().events.filters;
+  let events = await getEvents(filters);
+  return events.data;
+});
 
 const fetchEvent = createAsyncThunk(
   'events/fetchOne',
@@ -49,6 +47,12 @@ export const putEvent = createAsyncThunk(
   },
 );
 
+export const setFilters = createAction('events/filter', function prepare(filters) {
+  return {
+    payload: filters,
+  };
+});
+
 export const getQrCodeFull = createAsyncThunk(
   'events/qr',
   async ({ eventId }, thunkApi) => {
@@ -75,6 +79,9 @@ export const eventsSlice = createSlice({
     events: [],
     event: null,
     pdf: null,
+    filters: {
+      only_not_cyclical_and_roots: true,
+    },
   },
   reducers: {},
   extraReducers: {
@@ -86,6 +93,9 @@ export const eventsSlice = createSlice({
     },
     [fetchEvent.fulfilled]: (state, action) => {
       state.event = action.payload;
+    },
+    [setFilters]: (state, action) => {
+      state.filters = action.payload;
     },
   },
 });

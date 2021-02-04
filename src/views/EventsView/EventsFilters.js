@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, useEffect } from 'react';
 
 import { DatePicker, Input, InputNumber, Form, Collapse, Checkbox } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchAllEvents } from '../../reducers';
+import { fetchAllEvents, setFilters } from '../../reducers';
 
 const { Panel } = Collapse;
 const { RangePicker } = DatePicker;
@@ -35,79 +35,85 @@ Date.prototype.toIsoString = function () {
 };
 
 export const EventsFilters = () => {
-  const [filters, setFilters] = useState({
-    only_not_cyclical_and_roots: true,
-  });
+  const filters = useSelector((state) => state.events.filters);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchAllEvents(filters));
+    dispatch(fetchAllEvents({}));
   }, [filters]);
 
   const onDatePickerDatesChanged = useCallback(
     (val) => {
       if (val) {
-        setFilters({
-          ...filters,
-          date_from: val[0].toDate().toIsoString(),
-          date_to: val[1].toDate().toIsoString(),
-        });
+        dispatch(
+          setFilters({
+            ...filters,
+            date_from: val[0].toDate().toIsoString(),
+            date_to: val[1].toDate().toIsoString(),
+          }),
+        );
       } else {
         let filtersCpy = { ...filters };
         delete filtersCpy.date_from;
         delete filtersCpy.date_to;
-        setFilters(filtersCpy);
+        dispatch(setFilters(filtersCpy));
       }
     },
-    [filters, setFilters],
+    [filters, dispatch],
   );
 
   const onNameContainsInputChanged = useCallback(
     (e) => {
       if (e.target.value) {
-        setFilters({
-          ...filters,
-          name_contains: e.target.value,
-        });
+        dispatch(
+          setFilters({
+            ...filters,
+            name_contains: e.target.value,
+          }),
+        );
       } else {
         let filtersCpy = { ...filters };
         delete filtersCpy.name_contains;
-        setFilters(filtersCpy);
+        dispatch(setFilters(filtersCpy));
       }
     },
-    [filters, setFilters],
+    [filters, dispatch],
   );
 
   const onPlaceInputChanged = useCallback(
     (e) => {
       if (e.target.value) {
-        setFilters({
-          ...filters,
-          place: e.target.value,
-        });
+        dispatch(
+          setFilters({
+            ...filters,
+            place: e.target.value,
+          }),
+        );
       } else {
         let filtersCpy = { ...filters };
         delete filtersCpy.place;
-        setFilters(filtersCpy);
+        dispatch(setFilters(filtersCpy));
       }
     },
-    [filters, setFilters],
+    [filters, dispatch],
   );
 
   const onPriceInputChanged = useCallback(
     (val) => {
       if (val) {
-        setFilters({
-          ...filters,
-          price: val,
-        });
+        dispatch(
+          setFilters({
+            ...filters,
+            price: val,
+          }),
+        );
       } else {
         let filtersCpy = { ...filters };
         delete filtersCpy.price;
-        setFilters(filtersCpy);
+        dispatch(setFilters(filtersCpy));
       }
     },
-    [filters, setFilters],
+    [filters, dispatch],
   );
 
   const onOnlyNotCyclicalAndRootsChanged = useCallback(
@@ -119,9 +125,9 @@ export const EventsFilters = () => {
         filtersCpy.only_not_cyclical_and_roots = true;
       }
 
-      setFilters(filtersCpy);
+      dispatch(setFilters(filtersCpy));
     },
-    [filters, setFilters],
+    [filters, dispatch],
   );
 
   return (
