@@ -128,6 +128,40 @@ export const EventView = () => {
     }
   };
 
+  const onMakePaymentClick = () => {
+    if (event.price) {
+      dispatch(payForEvent(id))
+        .then(unwrapResult)
+        .then(() => {
+          redirectTo(`/payments/${id}`);
+        });
+    }
+  };
+
+  const eventJoinPayDownloadButton = () => {
+    const isNotSignedUpFor = !event.is_signed_up_for;
+    const isUnpaidSigned = !event.payment_made && event.is_signed_up_for;
+    if (isNotSignedUpFor) {
+      return [
+        <Button onClick={onButtonClick} key='1' type='primary'>
+          Zapisz się
+        </Button>,
+      ];
+    } else if (isUnpaidSigned) {
+      return [
+        <Button onClick={onMakePaymentClick} key='1' type='primary'>
+          Zapłać
+        </Button>,
+      ];
+    } else {
+      return [
+        <Button onClick={onJoinButtonClicked} key='2' type='primary'>
+          Pobierz wejściówkę
+        </Button>,
+      ];
+    }
+  };
+
   const onJoinButtonClicked = async () => {
     let result = await axios.get(`/tickets/${id}`, {
       responseType: 'blob',
@@ -148,19 +182,7 @@ export const EventView = () => {
         className='site-page-header event--view'
         onBack={() => history.goBack()}
         title={event.name}
-        extra={
-          !event.is_signed_up_for
-            ? [
-                <Button onClick={onButtonClick} key='1' type='primary'>
-                  Zapisz się
-                </Button>,
-              ]
-            : [
-                <Button onClick={onJoinButtonClicked} key='2' type='primary'>
-                  Pobierz wejściówkę
-                </Button>,
-              ]
-        }
+        extra={eventJoinPayDownloadButton()}
       >
         <Infos event={event} />
         <Stats event={event} />
