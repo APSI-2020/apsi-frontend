@@ -60,7 +60,7 @@ export const EventNew = () => {
         .then(() => {
           history.push('/');
         })
-        .catch(() => {
+        .catch((e) => {
           notification.error(
             {
               message: 'Pojawił się błąd',
@@ -143,6 +143,26 @@ export const EventNew = () => {
             <Select.Option key={d.id}>{d.name}</Select.Option>
           ))}
         </Select>
+      </Form.Item>
+      <Form.Item name={'frequency'} label='Częstotliwość'>
+        <Select>
+          <Select.Option key='ONCE'>Once</Select.Option>
+          <Select.Option key='DAILY'>Daily</Select.Option>
+          <Select.Option key='WEEKLY'>Weekly</Select.Option>
+          <Select.Option key='MONTHLY'>Monthly</Select.Option>
+        </Select>
+      </Form.Item>
+      <Form.Item
+        name={'cyclic_boundary'}
+        label='Data zakończenia wydarzenia cyklicznego'
+        rules={[
+          {
+            required: true,
+            message: 'Proszę wybrać datę zakończenia wydarzenia cyklicznego',
+          },
+        ]}
+      >
+        <DatePicker style={{ width: '100%' }} />
       </Form.Item>
       <Form.Item
         name={'lecturers'}
